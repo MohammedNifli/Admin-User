@@ -1,0 +1,101 @@
+<% include('../layouts/header.ejs') %>
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .login-container {
+        width: 300px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    input {
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    h4 {
+        color: #ff6347;
+        margin-top: 10px;
+        text-align: center;
+    }
+    #btn-1{
+        color: red;
+    }
+</style>
+
+<div class="login-container">
+    <h1>Login</h1>
+
+    <% if(typeof message !== 'undefined'){ %>
+        <h4><%=  message %></h4>
+    <% } %>
+
+    <form action="/login" method="post" onsubmit="return validateForm()">
+        <input type="email" name="email" placeholder="Enter Email" required>
+        <input type="password" name="password" placeholder="Enter Password" required>
+        <input type="submit" value="Login">
+      
+
+    </form>
+    <a href="/welcomepage"><button id="btn-1">Back</button></a>
+    <script>
+        function validateForm() {
+            // Simple email validation using a regular expression
+            const emailInput = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+
+            // Password validation for a minimum length of 6 characters
+            const passwordInput = document.getElementById('password');
+            if (passwordInput.value.length < 6) {
+                alert('Password must be at least 6 characters long.');
+                return false;
+            }
+
+            return true; // Form will be submitted if all validations pass
+        }
+    </script>
+
+</div>
+
+<% include('../layouts/footer.ejs') %>

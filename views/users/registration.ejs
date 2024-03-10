@@ -1,0 +1,158 @@
+<% include('../layouts/header.ejs') %>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .registration-container {
+            max-width: 400px;
+            margin: 20px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            color: #4caf50;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <h1>User Registration Form</h1>
+
+        <form action="/register" method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" pattern="[A-Za-z ]+" placeholder="Enter Name" required>
+                <p id="name-error" class="error-message"></p>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                <p id="email-error" class="error-message"></p>
+            </div>
+            
+            <div class="form-group">
+                <label for="mob">Mobile:</label>
+                <input type="text" name="mob" id="mob" placeholder="Enter your mobile (10 digits)" required>
+                <p id="mob-error" class="error-message"></p>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password (min. 6 characters)" required>
+                <p id="password-error" class="error-message"></p>
+            </div>
+            
+
+            <button type="submit">Register</button>
+        </form>
+        <a href="/welcomepage"><button id="btn-1">Back</button></a>
+
+        <% if(typeof message !== 'undefined'){ %>
+            <p><%= message %></p>
+        <% } %>
+
+        <script>
+            function validateForm() {
+                console.log("123")
+                var nameInput = document.getElementById('name');
+                var emailInput = document.getElementById('email');
+                var mobInput = document.getElementById('mob');
+                var passwordInput = document.getElementById('password');
+                var nameRegex = /^[A-Za-z ]+$/;
+                var emailRegex = /^[^\s@]+@gmail\.com$/i;
+
+                var mobRegex = /^\d{10}$/; // 10-digit mobile number
+                var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/; // at least one uppercase, one lowercase, one digit
+        
+                if (!nameRegex.test(nameInput.value)) {
+                    showError('name', 'Name should contain only letters.');
+                    return false;
+                }
+        
+                if (!emailRegex.test(emailInput.value)) {
+                    showError('email', 'Invalid email address.');
+                    return false;
+                }
+        
+                if (!mobRegex.test(mobInput.value)) {
+                    alert('Mobile number should be a 10-digit number.'); // Alert for mobile number validation
+                    return false;
+                }
+        
+                if (!passwordRegex.test(passwordInput.value)) {
+                    showError('password', 'Password must be at least 6 characters and include at least one uppercase letter, one lowercase letter, and one digit.');
+                    return false;
+                }
+        
+                return true;
+            }
+        
+            function showError(field, message) {
+                var errorMessage = document.getElementById(field + '-error');
+                errorMessage.textContent = message;
+                // You can also add styles to highlight the error if needed, for example:
+                // errorMessage.style.color = 'red';
+            }
+        </script>
+        
+        
+
+    </div>
+    <% include('../layouts/footer.ejs') %>

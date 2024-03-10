@@ -1,0 +1,146 @@
+
+<% include('../layouts/header.ejs') %>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        color: #3498db;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        border-radius: 8px;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #3498db;
+        color: #fff;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    button {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 5px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+    }
+</style>
+
+<div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search...">
+    <button onclick="searchUsers()">Search</button>
+</div>
+
+
+<h1>Dashboard</h1>
+<a href="/admin/new-user"><button>Add New User</button></a>
+<br><br>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Actions</th>
+    </tr>
+    <% 
+    if(users.length > 0){
+        for(let i=0 ; i<users.length; i++){
+    %>
+            <tr>
+                <td><%= users[i].name %></td>
+                <td><%= users[i].email %></td>
+                <td><%= users[i].mobile %></td>
+                <td>
+                    <a href="/admin/edit-user?id=<%= users[i]._id %>"><button>Edit</button></a>
+                    <a href="/admin/delete-user" class="back-link delete-link" data-user-id="<%= users[i]._id %>" data-user-name="<%= users[i].name %>"><button>Delete</button></a>
+                </td>
+            </tr>
+    <%
+        }
+    } else {
+    %>
+        <tr>
+            <td colspan="4">Users Not Found</td>
+        </tr>
+    <%
+    }
+    %>
+</table>
+<script>
+
+function searchUsers() {
+    // Get input element, filter text, table, and table rows
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.querySelector("table");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through table rows and hide/show based on input
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0]; // Change index to the column you want to search
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteLinks = document.querySelectorAll('.delete-link');
+
+    deleteLinks.forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        const userId = this.getAttribute('data-user-id');
+        const userName = this.getAttribute('data-user-name');
+
+        const result = confirm("Are you sure you want to delete the user '" + userName + "'?");
+        if (result) {
+          window.location.href = "/admin/delete-user?id=" + encodeURIComponent(userId);
+        }
+      });
+    });
+  });
+</script>
+
+<a href="/admin/adhome"><button>Go To Home</button></a>
+<% include('../layouts/footer.ejs') %>

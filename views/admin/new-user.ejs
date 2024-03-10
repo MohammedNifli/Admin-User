@@ -1,0 +1,148 @@
+
+<% include('../layouts/header.ejs') %>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    .registration-container {
+        width: 50%;
+        margin: 50px auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+    }
+
+    h1 {
+        color: #3498db;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    input {
+        width: 100%;
+        padding: 15px;
+        margin: 10px 0;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    input[type="submit"] {
+        background-color: #3498db;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #2980b9;
+    }
+
+    p {
+        color: red;
+        margin-top: 10px;
+    }
+
+    button {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        padding: 15px 30px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 18px;
+        margin-top: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+    }
+</style>
+
+<div class="registration-container">
+    <h1>Add New User</h1>
+
+    <form action="" method="post" onsubmit="return validateForm()">
+        <input type="text" name="name" placeholder="Enter Name" pattern="[A-Za-z ]+"  required>
+        <p id="name-error" class="error-message"></p>
+
+        <input type="email" name="email" placeholder="Enter Email" required>
+        <p id="email-error" class="error-message"></p>
+
+        <input type="text" name="mob" placeholder="Enter Mobile" pattern="[0-9]{10}" required>
+        <p id="mob-error" class="error-message"></p>
+
+        <input type="password" name="password" placeholder="Enter Password" required>
+        <p id="password-error" class="error-message"></p>
+
+        <input type="submit" value="Register">
+    </form>
+
+    <% if(typeof message !== 'undefined'){ %>
+        <p><%= message %></p>
+    <% } %>
+
+    <script>
+        function validateForm() {
+            var nameInput = document.getElementById('name');
+            var emailInput = document.getElementById('email');
+            var mobInput = document.getElementById('mob');
+            var passwordInput = document.getElementById('password');
+            var nameRegex = /^[A-Za-z ]+$/;
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var mobRegex = /^\d{10}$/; // 10-digit mobile number
+            var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/; // at least one uppercase, one lowercase, one digit
+    
+            if (!nameRegex.test(nameInput.value)) {
+                showError('name', 'Name should contain only letters.');
+                return false;
+            }
+    
+            if (!emailRegex.test(emailInput.value)) {
+                showError('email', 'Invalid email address.');
+                return false;
+            }
+    
+            if (!mobRegex.test(mobInput.value)) {
+                alert('Mobile number should be a 10-digit number.'); // Alert for mobile number validation
+                return false;
+            }
+    
+            if (!passwordRegex.test(passwordInput.value)) {
+                showError('password', 'Password must be at least 6 characters and include at least one uppercase letter, one lowercase letter, and one digit.');
+                return false;
+            }
+    
+            return true;
+        }
+    
+        function showError(field, message) {
+            var errorMessage = document.getElementById(field + '-error');
+            errorMessage.textContent = message;
+           
+        }
+    </script>
+    
+
+</div>
+
+<a href="/admin/dashboard"><button>Go Back</button></a>
+
+<% include('../layouts/footer.ejs') %>

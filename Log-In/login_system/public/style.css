@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+
+body{
+    font-family: 'Open Sans', sans-serif;
+    background-image: url('assets/login-1-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+.center-div{
+    padding-top: 10%;
+}
+
+.btn.btn-success{
+    padding: .4em 2em;
+    border: 1px solid white;
+    margin-top: 15px;
+}
+
+.btn.btn-success:hover{
+    background-color: rgb(26, 0, 90);
+    border: 1px solid rgb(26, 0, 90);
+}
+
+form{
+    padding: 0 3em;
+}
+
+#login.title>span{
+    font-size: .8em;
+}
+
+.text-left{
+    font-size: .8em;
+}
+
+#email-address{
+    margin-right: 100px;
+}
+
+#login-password{
+    margin-right: 127px;
+}
+
+.container{
+    backdrop-filter: blur(10px);
+}
